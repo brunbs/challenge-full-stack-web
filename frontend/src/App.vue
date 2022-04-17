@@ -50,7 +50,7 @@ export default {
       this.currentPage = page;
     },
     async getStudents() {
-      await axios.get('http://localhost:3000/students', {
+      await axios.get(process.env.VUE_APP_URL, {
         params: {
           page: this.paginationParams.page,
           order: this.paginationParams.order,
@@ -78,7 +78,7 @@ export default {
       this.getStudents()
     },
     async handlePageChange(value) {
-      await axios.get('http://localhost:3000/students', {
+      await axios.get(process.env.VUE_APP_URL, {
         params: {
           page: value - 1,
           order: this.paginationParams.order,

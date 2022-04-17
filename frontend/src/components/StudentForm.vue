@@ -87,7 +87,7 @@ export default {
             
         },
         async createStudent(dataToSave) {
-            await axios.post('http://localhost:3000/students', dataToSave,
+            await axios.post('process.env.VUE_APP_URL', dataToSave,
                 {
                     headers: { 'Content-Type': 'application/json' }
                 })
@@ -103,7 +103,7 @@ export default {
                 })
         },
         async updateStudent(dataToSave, ra) {
-            await axios.put(`http://localhost:3000/students/${ra}`, dataToSave,
+            await axios.put(`${process.env.VUE_APP_URL}${ra}`, dataToSave,
                 {
                     headers: { 'Content-Type': 'application/json' }
                 })
