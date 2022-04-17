@@ -25,7 +25,7 @@
                 <div class="field">
                     <label for="studentCpf" class="label">CPF</label>
                     <input v-mask="'###.###.###-##'" v-model="studentCpf" type="text" class="input" id="studentCpf"
-                        placeholder="Informe o número do documento">
+                        placeholder="Informe o número do documento" :disabled="isEditable">
                 </div>
             </section>
             <footer class="modal-card-foot">
@@ -58,6 +58,14 @@ export default {
             studentEmail: '',
             studentCpf: '',
             studentName: ''
+        }
+    },
+    computed: {
+        isEditable() {
+            if (this.formMode === 'Edit') {
+                return true
+            }
+            return false
         }
     },
     methods: {
