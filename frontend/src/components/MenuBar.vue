@@ -4,7 +4,7 @@
         <p> Módulo Acadêmico </p>
     </div>
     <div class="message-body">
-        <a href="#"> Alunos </a>
+        <a :href="url"> Alunos </a>
     </div>
     </div>
     
@@ -13,7 +13,12 @@
 
 <script>
 export default {
-    name: 'MenuBar'
+    name: 'MenuBar',
+    data() {
+        return {
+            url: process.env.VUE_APP_URL,
+        }
+    }
 }
 </script>
 

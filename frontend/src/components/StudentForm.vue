@@ -53,6 +53,7 @@ export default {
     directives: {mask},
     data() {
         return {
+            apiUrl: process.env.VUE_APP_BACK_URL,
             title: '',
             studentRa: '',
             studentEmail: '',
@@ -87,7 +88,7 @@ export default {
             
         },
         async createStudent(dataToSave) {
-            await axios.post('process.env.VUE_APP_URL', dataToSave,
+            await axios.post(this.apiUrl, dataToSave,
                 {
                     headers: { 'Content-Type': 'application/json' }
                 })
@@ -103,7 +104,7 @@ export default {
                 })
         },
         async updateStudent(dataToSave, ra) {
-            await axios.put(`${process.env.VUE_APP_URL}${ra}`, dataToSave,
+            await axios.put(`${this.apiUrl}${ra}`, dataToSave,
                 {
                     headers: { 'Content-Type': 'application/json' }
                 })

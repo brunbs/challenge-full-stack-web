@@ -32,9 +32,14 @@ const axios = require ('axios');
 export default {
     name: 'StudentsTable',
     props: ['studentsList'],
+    data() {
+        return {
+            apiUrl: process.env.VUE_APP_BACK_URL
+        }
+    },
     methods: {
         async deleteStudent(ra) {
-            await axios.delete(`http://localhost:3000/students/${ra}`)
+            await axios.delete(`${this.apiUrl}${ra}`)
             alert(`Estudante ${ra} deletado`)
             this.$emit('updateStudentsList')
         }

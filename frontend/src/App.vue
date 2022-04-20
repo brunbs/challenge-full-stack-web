@@ -32,6 +32,7 @@ export default {
   },
   data() {
     return {
+      apiUrl: process.env.VUE_APP_BACK_URL,
       studentsList: [],
       openForm: false,
       formMode: '',
@@ -49,7 +50,7 @@ export default {
       this.currentPage = page;
     },
     async getStudents() {
-      await axios.get(process.env.VUE_APP_URL, {
+      await axios.get(this.apiUrl, {
         params: {
           page: this.paginationParams.page,
           order: this.paginationParams.order,
@@ -65,7 +66,7 @@ export default {
         });
     },
     async getSearchedStudents(studentsName) {
-      await axios.get(process.env.VUE_APP_URL, {
+      await axios.get(this.apiUrl, {
         params: {
           name: studentsName,
           page: this.paginationParams.page,
@@ -101,7 +102,7 @@ export default {
       this.getStudents()
     },
     async handlePageChange(value) {
-      await axios.get(process.env.VUE_APP_URL, {
+      await axios.get(this.apiUrl, {
         params: {
           page: value - 1,
           order: this.paginationParams.order,
