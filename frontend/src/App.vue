@@ -5,7 +5,7 @@
     </div>
     <div class="column is-three-fifth">
       <StudentForm v-if="openForm" @closeForm="closeStudentForm" :formMode="formMode" :student="student" />
-      <SearchStudent @createStudent="openStudentForm('Create')" />
+      <SearchStudent @createStudent="openStudentForm('Create')" @searchStudent="searchStudents" />
       <StudentsTable :studentsList="studentsList" @updateStudentsList="getStudents" @updateStudent="openStudentForm"
         @changeListOrder="changeListOrder" />
       <Pagination :totalPages="totalPages" :perPage="10" :currentPage="currentPage" @pageChanged="handlePageChange" />
@@ -46,7 +46,6 @@ export default {
   },
   methods: {
     onPageChange(page) {
-      console.log(page)
       this.currentPage = page;
     },
     async getStudents() {
@@ -64,6 +63,30 @@ export default {
           this.paginationParams.order = res.data.order;
           this.paginationParams.orderBy = res.data.orderBy;
         });
+    },
+    async getSearchedStudents(studentsName) {
+      await axios.get(process.env.VUE_APP_URL, {
+        params: {
+          name: studentsName,
+          page: this.paginationParams.page,
+          order: this.paginationParams.order,
+          orderBy: this.paginationParams.orderBy
+        }
+      })
+        .then(res => {
+          this.totalPages = res.data.totalPages;
+          this.currentPage = res.data.currentPage + 1;
+          this.studentsList = res.data.content;
+          this.paginationParams.order = res.data.order;
+          this.paginationParams.orderBy = res.data.orderBy;
+        });
+    },
+    searchStudents(studentsName) {
+      if(studentsName === '') {
+        alert('Digite o nome de um estudante')
+      } else {
+        this.getSearchedStudents(studentsName)
+      }
     },
     openStudentForm(mode, student) {
       if (student) {

@@ -4,8 +4,8 @@
         <div class="level">
             <div class="form level-item">
                 <div class="field has-addons">
-                    <input class="input" type="text" placeholder="Digite sua busca">
-                    <button class="button is-info">Pesquisar</button>
+                    <input class="input" v-model="studentsName" type="text" placeholder="Digite o nome completo do estudante">
+                    <button class="button is-info" @click="$emit('searchStudent', studentsName)">Pesquisar</button>
                     <button class="btn-add" @click="$emit('createStudent')">Cadastrar Aluno</button>
                 </div>
 
@@ -19,7 +19,12 @@
 <script>
 export default {
     name: 'SearchStudent',
-    emits: ['createStudent']
+    data() {
+        return {
+            studentsName:''
+        }
+    },
+    emits: ['createStudent', 'searchStudent']
 }
 
 </script>
