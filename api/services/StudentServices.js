@@ -9,6 +9,19 @@ class StudentServices {
         return database.Student.findAndCountAll({order: order, limit: req_limit, offset: req_offset});
     }
 
+    async getSearchedStudents(order, page, size, name) {
+        const req_limit = size;
+        const req_offset = size * page;
+        return database.Student.findAndCountAll({
+            where: {
+                name: name
+            }, 
+            order: order,
+            limit: req_limit,
+            offset: req_offset
+        })
+    }
+
     async getOneStudent(ra) {
         const student = await database.Student.findByPk(ra);
         if (!student) {

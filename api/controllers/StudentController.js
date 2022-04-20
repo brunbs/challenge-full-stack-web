@@ -3,12 +3,38 @@ const { paginationBuilder } = require('../utils/paginationBuilder');
 const studentServices = new StudentServices();
 
 class StudentsController {
-    static async getAllStudents(req, res, next) {
+    static async getStudents(req, res, next) {
         try {
             const pageAsNumber = Number.parseInt(req.query.page);
             const sizeAsNumber = Number.parseInt(req.query.size);
             const pagination = paginationBuilder(req.query.orderBy, pageAsNumber, sizeAsNumber, req.query.order);
-            const allStudents = await studentServices.getAllStudents([[pagination.orderBy, pagination.order]], pagination.page, pagination.size);
+            const {name} = req.query;
+            var allStudents;
+            if(typeof name !== 'undefined'){
+                allStudents = await studentServices.getSearchedStudents([[pagination.orderBy, pagination.order]], pagination.page, pagination.size, name);
+            } else {
+                allStudents = await studentServices.getAllStudents([[pagination.orderBy, pagination.order]], pagination.page, pagination.size);
+            }
+            return res.status(200).json({
+                totalStudents: allStudents.count,
+                currentPage: pagination.page,
+                content: allStudents.rows,
+                totalPages: Math.ceil(allStudents.count / pagination.size),
+                orderBy: pagination.orderBy,
+                order: pagination.order
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    static async getSearchedStudents(req, res, next) {
+        try {
+            const pageAsNumber = Number.parseInt(req.query.page);
+            const sizeAsNumber = Number.parseInt(req.query.size);
+            const pagination = paginationBuilder(req.query.orderBy, pageAsNumber, sizeAsNumber, req.query.order);
+            const {name} = req.params;
+            const allStudents = await studentServices.getSearchedStudents([[pagination.orderBy, pagination.order]], pagination.page, pagination.size, name);
             return res.status(200).json({
                 totalStudents: allStudents.count,
                 currentPage: pagination.page,
